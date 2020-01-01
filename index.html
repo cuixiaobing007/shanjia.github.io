@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>山佳·南苏</title>
+    <title>山佳</title>
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:400,700|Noto+Serif:400,400i&display=swap" rel="stylesheet">
     
 <link rel="stylesheet" href="/css/style.css">
@@ -14,7 +14,7 @@
     
   <header class="header-mobile-layout">
       <div class="blog-title">
-        <a href="/" class="logo">山佳·南苏</a>
+        <a href="/" class="logo">山佳</a>
       </div>
       <nav class="navbar">
         <ul class="menu">
@@ -59,7 +59,20 @@
       </div>
       <div class="post-content">
         
-        <h1 id="Python初体验之Flask"><a href="#Python初体验之Flask" class="headerlink" title="Python初体验之Flask"></a>Python初体验之Flask</h1><h2 id="关于Flask"><a href="#关于Flask" class="headerlink" title="关于Flask"></a>关于Flask</h2>
+        <h1 id="关于Flask"><a href="#关于Flask" class="headerlink" title="关于Flask"></a>关于Flask</h1><p>Flask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。</p>
+<h1 id="Flask使用"><a href="#Flask使用" class="headerlink" title="Flask使用"></a>Flask使用</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>安装 Python3</li>
+<li>安装Sublime（提前配好Python开发环境）或者PyCharm</li>
+</ul>
+<h2 id="安装flask"><a href="#安装flask" class="headerlink" title="安装flask"></a>安装flask</h2><p><code>pip install flask</code></p>
+<h2 id="使用Sublime创建Flask项目"><a href="#使用Sublime创建Flask项目" class="headerlink" title="使用Sublime创建Flask项目"></a>使用Sublime创建Flask项目</h2><ul>
+<li>创建test文件夹</li>
+<li>在下面创建test.py文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>选择 Tools -&gt; Build System 选定为Python3。<br>选择 Tools -&gt; Build 运行代码。<br>看到这个结果就说明执行成功，在浏览器访问其中的地址。接受来自Python的问候吧。<br><img src="media/sublim1.jpg" alt="subli"></p>
+
         
       </div>
       <div class="post-meta">
