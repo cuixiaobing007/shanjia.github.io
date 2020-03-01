@@ -46,19 +46,19 @@
   };
 </script>
 
-  <meta name="description" content="写在最前面这是我在简书上的第一篇博客，这次整理的技术点主要是关于Python的，但因为工作以来一直使用的开发语言是Java，所以在学习过程中会下意识的比较这两者。 在这里整理这些内容有两个原因： 1. 一是为了梳理一下最近的技术点； 2. 二来为了熟悉一下Markdown语法为以后自己的个人博客作准备。Python初体验使用Python之前工作的第一年就有同事分享给我一份资源，是他工作之余去培训P">
+  <meta name="description" content="Java篇之JunitJunit介绍关于Junit">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python初体验">
-<meta property="og:url" content="http://yoursite.com/2019/12/28/python_1/index.html">
+<meta property="og:title" content="Junit">
+<meta property="og:url" content="http://yoursite.com/2020/01/29/Junit/index.html">
 <meta property="og:site_name" content="山佳">
-<meta property="og:description" content="写在最前面这是我在简书上的第一篇博客，这次整理的技术点主要是关于Python的，但因为工作以来一直使用的开发语言是Java，所以在学习过程中会下意识的比较这两者。 在这里整理这些内容有两个原因： 1. 一是为了梳理一下最近的技术点； 2. 二来为了熟悉一下Markdown语法为以后自己的个人博客作准备。Python初体验使用Python之前工作的第一年就有同事分享给我一份资源，是他工作之余去培训P">
+<meta property="og:description" content="Java篇之JunitJunit介绍关于Junit">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2019-12-28T12:45:51.539Z">
-<meta property="article:modified_time" content="2020-01-01T13:47:30.893Z">
+<meta property="article:published_time" content="2020-01-29T15:48:57.385Z">
+<meta property="article:modified_time" content="2020-01-29T15:50:38.243Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2019/12/28/python_1/">
+<link rel="canonical" href="http://yoursite.com/2020/01/29/Junit/">
 
 
 <script id="page-configurations">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title>Python初体验 | 山佳</title>
+  <title>Junit | 山佳</title>
   
 
 
@@ -169,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/python_1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/29/Junit/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -182,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Python初体验
+          Junit
         </h1>
 
         <div class="post-meta">
@@ -191,16 +191,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2019-12-28 20:45:51" itemprop="dateCreated datePublished" datetime="2019-12-28T20:45:51+08:00">2019-12-28</time>
+              <time title="Created: 2020-01-29 23:48:57 / Modified: 23:50:38" itemprop="dateCreated datePublished" datetime="2020-01-29T23:48:57+08:00">2020-01-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-01 21:47:30" itemprop="dateModified" datetime="2020-01-01T21:47:30+08:00">2020-01-01</time>
-              </span>
 
           
   
@@ -211,8 +205,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/12/28/python_1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/28/python_1/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/01/29/Junit/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/29/Junit/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -227,20 +221,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h5 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h5><pre><code>这是我在简书上的第一篇博客，这次整理的技术点主要是关于Python的，但因为工作以来一直使用的开发语言是Java，所以在学习过程中会下意识的比较这两者。
-在这里整理这些内容有两个原因：
-1. 一是为了梳理一下最近的技术点；
-2. 二来为了熟悉一下Markdown语法为以后自己的个人博客作准备。</code></pre><h1 id="Python初体验"><a href="#Python初体验" class="headerlink" title="Python初体验"></a>Python初体验</h1><h2 id="使用Python之前"><a href="#使用Python之前" class="headerlink" title="使用Python之前"></a>使用Python之前</h2><pre><code>工作的第一年就有同事分享给我一份资源，是他工作之余去培训Python的资料。但一直都没系统的学习完。直到今年公司有关于抓去数据的任务需求，我特意选择了Python作为新系统接口服务的技术栈之一。
-关于Java和Python这两个语言的比较，对于一个程序猿的我来说没有好坏之分，`大锤八十小锤四十`而已。</code></pre><h2 id="使用Python"><a href="#使用Python" class="headerlink" title="使用Python"></a>使用Python</h2><pre><code>今年上半年，公司有一个新的从合作伙伴公司数据抓取和数据修改等同步的需求。考虑了Java项目搭建的成本和Java在页面爬虫的短板等问题，选择了使用python作为项目的技术栈之一。</code></pre><h2 id="初识Python之后"><a href="#初识Python之后" class="headerlink" title="初识Python之后"></a>初识Python之后</h2><p>不得不说Python是一门强大的而且极易上手的开发语言，不论你是否有过编程的经验。</p>
-<h3 id="总结几个我觉得Java和Python的异同点。"><a href="#总结几个我觉得Java和Python的异同点。" class="headerlink" title="总结几个我觉得Java和Python的异同点。"></a>总结几个我觉得Java和Python的异同点。</h3><ul>
-<li><strong>Python是动态语言（弱类型语言） /  Java 是静态语言（强类型语言）</strong><br>动态语言是在运行时确定数据类型的语言。变量使用之前不需要类型声明，通常变量的类型是被赋值的那个值的类型。 (eg: mumber = 1)<br>静态语言是在编译时变量的数据类型即可确定的语言，多数静态类型语言要求在使用变量之前必须声明数据类型。（eg: Int mumber = 1）</li>
-<li><strong>Python 和 Java 都是介于编译型和解释型语言之间的一门语言</strong><br>使用过python开发有人会发现，python运行的时候会生成一个pyc文件。这说明python也不是一个纯的解释型语言。只不过类似Javac 这样的过程Python已经帮忙处理了，而且类似Java 跨平台的特性，class文件是需要虚拟机解释执行的，Python也是这样，但是有资料显示，2.<em>生成的pyc文件在3.</em>上是无法运行的。</li>
-<li><strong>Python 没有基础数据类型的概念</strong><br>python 常见数据类型有 <code>布尔型、整型、浮点型、字符串、列表、元组、集合、字典</code>等</li>
-<li><strong>Python 中没有NULL 替代的是None</strong></li>
-<li><strong>Python有丰富的第三方库</strong><br>如果有一个成型的不错的构想，在实现的时候不妨先花时间找下已经封装好的第三方库，会带给你很大的惊喜。</li>
-</ul>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>个人博客刚搭建起来，尚未完善评价功能，有批评指教可以移步简书。<br><a href="https://www.jianshu.com/p/a2a2f2ac005f" target="_blank" rel="noopener">简书链接</a></p>
-
+        <hr>
+<h2 id="Java篇之Junit"><a href="#Java篇之Junit" class="headerlink" title="Java篇之Junit"></a>Java篇之Junit</h2><h1 id="Junit介绍"><a href="#Junit介绍" class="headerlink" title="Junit介绍"></a>Junit介绍</h1><h2 id="关于Junit"><a href="#关于Junit" class="headerlink" title="关于Junit"></a>关于Junit</h2>
     </div>
 
     
@@ -254,11 +236,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2019/12/29/python_flask/" rel="next" title="Python初体验之Flask">
-      Python初体验之Flask <i class="fa fa-chevron-right"></i>
+    <a href="/2020/01/29/hexo/" rel="prev" title="hexo">
+      <i class="fa fa-chevron-left"></i> hexo
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -319,7 +301,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python初体验"><span class="nav-number"></span> <span class="nav-text">Python初体验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Python之前"><span class="nav-number"></span> <span class="nav-text">使用Python之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Python"><span class="nav-number"></span> <span class="nav-text">使用Python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初识Python之后"><span class="nav-number"></span> <span class="nav-text">初识Python之后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结几个我觉得Java和Python的异同点。"><span class="nav-number"></span> <span class="nav-text">总结几个我觉得Java和Python的异同点。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number"></span> <span class="nav-text">链接</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java篇之Junit"><span class="nav-number">1.</span> <span class="nav-text">Java篇之Junit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Junit介绍"><span class="nav-number"></span> <span class="nav-text">Junit介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Junit"><span class="nav-number">1.</span> <span class="nav-text">关于Junit</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
