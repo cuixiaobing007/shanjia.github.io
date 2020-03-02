@@ -188,10 +188,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-01-29 23:48:57 / Modified: 23:50:38" itemprop="dateCreated datePublished" datetime="2020-01-29T23:48:57+08:00">2020-01-29</time>
+              <time title="Created: 2020-01-29 23:48:57" itemprop="dateCreated datePublished" datetime="2020-01-29T23:48:57+08:00">2020-01-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-02 23:17:48" itemprop="dateModified" datetime="2020-03-02T23:17:48+08:00">2020-03-02</time>
+              </span>
 
           
   
@@ -219,7 +225,29 @@
 
       
           <hr>
-<h2 id="Java篇之Junit"><a href="#Java篇之Junit" class="headerlink" title="Java篇之Junit"></a>Java篇之Junit</h2><h1 id="Junit介绍"><a href="#Junit介绍" class="headerlink" title="Junit介绍"></a>Junit介绍</h1><h2 id="关于Junit"><a href="#关于Junit" class="headerlink" title="关于Junit"></a>关于Junit</h2>
+<h2 id="Java篇之Junit1"><a href="#Java篇之Junit1" class="headerlink" title="Java篇之Junit1"></a>Java篇之Junit1</h2><h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>作为一名Java开发来说，平时说到单元测试就会想到Junit框架。一直都是简单的会用一下，详细的说起来到说不出什么，故此专门查漏一番。</p>
+<h1 id="Junit介绍"><a href="#Junit介绍" class="headerlink" title="Junit介绍"></a>Junit介绍</h1><p>JUnit 是一个 Java 编程语言的单元测试框架。是起源于 JUnit 的一个统称为 xUnit 的单元测试框架之一。（xUnit是一系列测试框架的统称，最开始来源于一个叫做Smalltalk的SUnit框架。现在各种面向对象语言，Java、Python语等的类、对象等定义就是来源于Smalltalk语言，后来这些语言都借助了Sunit框架的理念，有很多通用的规范和特征，也就统称为xUnit。）<br>JUnit 促进了“先测试后编码”的理念，即可以先开发测试数据的一段代码，可以先测试，然后再应用。(but，一般我们都习惯了直接开发，即便是单元测试也是在开发完之后的工作了。😓)</p>
+<h2 id="Junit特点"><a href="#Junit特点" class="headerlink" title="Junit特点"></a>Junit特点</h2><ol>
+<li>是一个开放的资源框架，用于编写和运行测试。</li>
+<li>提供注释来识别测试方法。  </li>
+<li>提供断言来测试预期结果。  </li>
+<li>提供测试运行来运行测试。  </li>
+<li>优雅简洁；测试可以自动运行并且检查自身结果并提供即时反馈。</li>
+<li>测试可以被组织为测试套件，包含测试用例，甚至其他的测试套件。</li>
+</ol>
+<h2 id="单元测试用例"><a href="#单元测试用例" class="headerlink" title="单元测试用例"></a>单元测试用例</h2><p>既然Junit是Java编程语言的单元测试框架。那什么是单元测试呢？<br>廖雪峰给的解释是，单元测试是用来对一个模块、一个函数或者一个类来进行正确性检验的测试工作。</p>
+<h3 id="单元测试要求"><a href="#单元测试要求" class="headerlink" title="单元测试要求"></a>单元测试要求</h3><p>一个正式的编写好的单元测试用例的特点是：已知输入和预期输出，即在测试执行前就已知。已知输入需要测试的先决条件，预期输出需要测试后置条件。<br>每一项需求至少需要两个单元测试用例：一个正检验，一个负检验。如果一个需求有子需求，每一个子需求必须至少有正检验和负检验两个测试用例。</p>
+<h2 id="Junit测试框架"><a href="#Junit测试框架" class="headerlink" title="Junit测试框架"></a>Junit测试框架</h2><p>Junit是一个回归测试框架。具有以下重要特性：测试工具、测试套件、测试运行器、测试分类</p>
+<h3 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具"></a>测试工具</h3><p>测试工具是一整套固定的工具，用于基线测试。测试工具的目的是为了确保测试能够在共享且固定的环境中运行，因此保证测试结果的可重复性。它包括：<br>在所有测试调用指令发起前的 setUp() 方法。<br>在测试方法运行后的 tearDown() 方法。</p>
+<h3 id="测试套件"><a href="#测试套件" class="headerlink" title="测试套件"></a>测试套件</h3><p>测试套件意味捆绑几个测试案例并且同时运行。在 JUnit 中，@RunWith 和 @Suite 都被用作运行测试套件。</p>
+<h3 id="测试运行器"><a href="#测试运行器" class="headerlink" title="测试运行器"></a>测试运行器</h3><p>测试运行器 用于执行测试案例。</p>
+<h3 id="测试分类"><a href="#测试分类" class="headerlink" title="测试分类"></a>测试分类</h3><p>测试分类是在编写和测试 JUnit 的重要分类。</p>
+<ol>
+<li>包含一套断言方法的测试断言</li>
+<li>包含规定运行多重测试工具的测试用例</li>
+<li>包含收集执行测试用例结果的方法的测试结果</li>
+</ol>
+
       
     </div>
 
