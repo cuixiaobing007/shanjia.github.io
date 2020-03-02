@@ -1,46 +1,232 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Java篇之Junit介绍 - 山佳</title>
-    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:400,700|Noto+Serif:400,400i&display=swap" rel="stylesheet">
-    
-<link rel="stylesheet" href="/css/style.css">
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<link rel="stylesheet" href="/css/main.css">
 
-  <body>
-    
-  <header class="header-mobile-layout">
-      <div class="blog-title">
-        <a href="/" class="logo">山佳</a>
-      </div>
-      <nav class="navbar">
-        <ul class="menu">
-          
-          <li class="menu-item">
-            <a href="/" class="menu-item-link">主页</a>
-          </li>
-          
-          <li class="menu-item">
-            <a href="/archives" class="menu-item-link">归档</a>
-          </li>
-          
-          <li class="menu-item">
-            <a href="/2019/12/29/me" class="menu-item-link">我</a>
-          </li>
-          
-        </ul>
-      </nav>
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="写在最前面作为一名Java开发来说，平时说到单元测试就会想到Junit框架。一直都是简单的会用一下，详细的说起来到说不出什么，故此专门查漏一番。 Junit介绍JUnit 是一个 Java 编程语言的单元测试框架。是起源于 JUnit 的一个统称为 xUnit 的单元测试框架之一。（xUnit是一系列测试框架的统称，最开始来源于一个叫做Smalltalk的SUnit框架。现在各种面向对象语言，Ja">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java篇之Junit介绍">
+<meta property="og:url" content="http://yoursite.com/2020/01/29/Junit/index.html">
+<meta property="og:site_name" content="山佳">
+<meta property="og:description" content="写在最前面作为一名Java开发来说，平时说到单元测试就会想到Junit框架。一直都是简单的会用一下，详细的说起来到说不出什么，故此专门查漏一番。 Junit介绍JUnit 是一个 Java 编程语言的单元测试框架。是起源于 JUnit 的一个统称为 xUnit 的单元测试框架之一。（xUnit是一系列测试框架的统称，最开始来源于一个叫做Smalltalk的SUnit框架。现在各种面向对象语言，Ja">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2020-01-29T15:48:57.385Z">
+<meta property="article:modified_time" content="2020-03-02T16:09:10.290Z">
+<meta property="article:author" content="cui">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/29/Junit/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java篇之Junit介绍 | 山佳</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山佳</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
     </header>
 
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
     <main class="main">
-      <article class="post">
-    <div class="post-title">
-        <h1 class="title">Java篇之Junit介绍</h2>
-    </div>
-    <div class="post-content">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/29/Junit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山佳">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java篇之Junit介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-29 23:48:57" itemprop="dateCreated datePublished" datetime="2020-01-29T23:48:57+08:00">2020-01-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-03 00:09:10" itemprop="dateModified" datetime="2020-03-03T00:09:10+08:00">2020-03-03</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/01/29/Junit/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/29/Junit/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
         <h1 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h1><p>作为一名Java开发来说，平时说到单元测试就会想到Junit框架。一直都是简单的会用一下，详细的说起来到说不出什么，故此专门查漏一番。</p>
 <h1 id="Junit介绍"><a href="#Junit介绍" class="headerlink" title="Junit介绍"></a>Junit介绍</h1><p>JUnit 是一个 Java 编程语言的单元测试框架。是起源于 JUnit 的一个统称为 xUnit 的单元测试框架之一。（xUnit是一系列测试框架的统称，最开始来源于一个叫做Smalltalk的SUnit框架。现在各种面向对象语言，Java、Python语等的类、对象等定义就是来源于Smalltalk语言，后来这些语言都借助了Sunit框架的理念，有很多通用的规范和特征，也就统称为xUnit。）<br>JUnit 促进了“先测试后编码”的理念，即可以先开发测试数据的一段代码，可以先测试，然后再应用。(but，一般我们都习惯了直接开发，即便是单元测试也是在开发完之后的工作了。😓)</p>
 <h2 id="Junit特点"><a href="#Junit特点" class="headerlink" title="Junit特点"></a>Junit特点</h2><ol>
@@ -65,33 +251,217 @@
 </ol>
 
     </div>
-    <div class="post-meta">
-        <span class="post-time">2020-01-29</span>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/29/hexo/" rel="prev" title="hexo">
+      <i class="fa fa-chevron-left"></i> hexo
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/02/Junit_2/" rel="next" title="Java之Junit应用">
+      Java之Junit应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-</article>
+      </footer>
+    
+  </article>
+  
+  
+  
 
-<div class="prev_next">
-    
-<div class="prev">
-    
-    <a href="/2020/03/02/Junit_2/" class="alignleft prev"
-        title="Java之Junit应用">&lt;= Java之Junit应用</a>
-    
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Junit介绍"><span class="nav-number">2.</span> <span class="nav-text">Junit介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Junit特点"><span class="nav-number">2.1.</span> <span class="nav-text">Junit特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试用例"><span class="nav-number">2.2.</span> <span class="nav-text">单元测试用例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单元测试要求"><span class="nav-number">2.2.1.</span> <span class="nav-text">单元测试要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Junit测试框架"><span class="nav-number">2.3.</span> <span class="nav-text">Junit测试框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试工具"><span class="nav-number">2.3.1.</span> <span class="nav-text">测试工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试套件"><span class="nav-number">2.3.2.</span> <span class="nav-text">测试套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试运行器"><span class="nav-number">2.3.3.</span> <span class="nav-text">测试运行器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试分类"><span class="nav-number">2.3.4.</span> <span class="nav-text">测试分类</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cui</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
-<div class="next">
-    
-    <a href="/2020/01/29/hexo/" class="alignright next"
-        title="hexo">hexo =&gt;</a>
-    
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
 </div>
 
-</div>
-
-<div class="post-comment">
-    
 
 
-</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
     </main>
-  </body>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cui</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'YvpdhuwAHAdpXgzPHCtXHg08-gzGzoHsz',
+      appKey: 'FKGcg90plr2dMxDRVrS8lG7r',
+      placeholder: "Just go go",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
 </html>
