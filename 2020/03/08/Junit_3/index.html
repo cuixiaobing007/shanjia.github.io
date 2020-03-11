@@ -46,22 +46,19 @@
   };
 </script>
 
-  <meta name="description" content="关于FlaskFlask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。 Flask使用准备工作 安装 Python3 安装Sublime（提前配好Python开发环境）或者PyCharm  安装flaskpip install flask 使用Sublime创建Flask项目创建falsk执行文件">
+  <meta name="description" content="写在前面Junit5已经出来，但因为习惯问题此处还是主要语句Junit4的主要用法。 主要内容 测试套件 忽略测试方法 代码运行时间测试 定向异常测试  测试套件测试套件意味着捆绑几个单元测试用例并且一起执行他们。JUnit 中，使用@RunWith 和 @Suite 注释来运行套件测试。（被@RunWith 和 @Suite注释的测试类不需要任何方法，SuiteClasse中写上要一起执行的测试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python初体验之Flask">
-<meta property="og:url" content="http://yoursite.com/2019/12/29/python_flask/index.html">
+<meta property="og:title" content="Java之Junit进阶">
+<meta property="og:url" content="http://yoursite.com/2020/03/08/Junit_3/index.html">
 <meta property="og:site_name" content="山佳">
-<meta property="og:description" content="关于FlaskFlask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。 Flask使用准备工作 安装 Python3 安装Sublime（提前配好Python开发环境）或者PyCharm  安装flaskpip install flask 使用Sublime创建Flask项目创建falsk执行文件">
+<meta property="og:description" content="写在前面Junit5已经出来，但因为习惯问题此处还是主要语句Junit4的主要用法。 主要内容 测试套件 忽略测试方法 代码运行时间测试 定向异常测试  测试套件测试套件意味着捆绑几个单元测试用例并且一起执行他们。JUnit 中，使用@RunWith 和 @Suite 注释来运行套件测试。（被@RunWith 和 @Suite注释的测试类不需要任何方法，SuiteClasse中写上要一起执行的测试">
 <meta property="og:locale" content="cn">
-<meta property="og:image" content="https://www.2360s.top/pic/sublim1.jpg">
-<meta property="og:image" content="https://www.2360s.top/pic/pycharm1.jpg">
-<meta property="article:published_time" content="2019-12-29T04:07:54.532Z">
-<meta property="article:modified_time" content="2020-03-02T02:07:26.875Z">
+<meta property="article:published_time" content="2020-03-08T09:35:01.735Z">
+<meta property="article:modified_time" content="2020-03-11T10:06:12.046Z">
 <meta property="article:author" content="cui">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.2360s.top/pic/sublim1.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2019/12/29/python_flask/">
+<link rel="canonical" href="http://yoursite.com/2020/03/08/Junit_3/">
 
 
 <script id="page-configurations">
@@ -73,7 +70,7 @@
   };
 </script>
 
-  <title>Python初体验之Flask | 山佳</title>
+  <title>Java之Junit进阶 | 山佳</title>
   
 
 
@@ -177,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/29/python_flask/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/08/Junit_3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -190,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Python初体验之Flask
+          Java之Junit进阶
         </h1>
 
         <div class="post-meta">
@@ -200,14 +197,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-12-29 12:07:54" itemprop="dateCreated datePublished" datetime="2019-12-29T12:07:54+08:00">2019-12-29</time>
+              <time title="Created: 2020-03-08 17:35:01" itemprop="dateCreated datePublished" datetime="2020-03-08T17:35:01+08:00">2020-03-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-02 10:07:26" itemprop="dateModified" datetime="2020-03-02T10:07:26+08:00">2020-03-02</time>
+                <time title="Modified: 2020-03-11 18:06:12" itemprop="dateModified" datetime="2020-03-11T18:06:12+08:00">2020-03-11</time>
               </span>
 
           
@@ -219,8 +216,8 @@
       </span>
       <span class="post-meta-item-text">Valine: </span>
     
-    <a title="valine" href="/2019/12/29/python_flask/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/29/python_flask/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/03/08/Junit_3/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/08/Junit_3/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -235,38 +232,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="关于Flask"><a href="#关于Flask" class="headerlink" title="关于Flask"></a>关于Flask</h1><p>Flask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。</p>
-<h1 id="Flask使用"><a href="#Flask使用" class="headerlink" title="Flask使用"></a>Flask使用</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
-<li>安装 Python3</li>
-<li>安装Sublime（提前配好Python开发环境）或者PyCharm</li>
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>Junit5已经出来，但因为习惯问题此处还是主要语句Junit4的主要用法。</p>
+<h1 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h1><ul>
+<li>测试套件</li>
+<li>忽略测试方法</li>
+<li>代码运行时间测试</li>
+<li>定向异常测试</li>
 </ul>
-<h2 id="安装flask"><a href="#安装flask" class="headerlink" title="安装flask"></a>安装flask</h2><p><code>pip install flask</code></p>
-<h2 id="使用Sublime创建Flask项目"><a href="#使用Sublime创建Flask项目" class="headerlink" title="使用Sublime创建Flask项目"></a>使用Sublime创建Flask项目</h2><h3 id="创建falsk执行文件"><a href="#创建falsk执行文件" class="headerlink" title="创建falsk执行文件"></a>创建falsk执行文件</h3><ul>
-<li>创建test文件夹</li>
-<li>在下面创建test.py文件</li>
+<h2 id="测试套件"><a href="#测试套件" class="headerlink" title="测试套件"></a>测试套件</h2><p>测试套件意味着捆绑几个单元测试用例并且一起执行他们。JUnit 中，使用@RunWith 和 @Suite 注释来运行套件测试。（被@RunWith 和 @Suite注释的测试类不需要任何方法，SuiteClasse中写上要一起执行的测试用例类）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.runner.RunWith;</span><br><span class="line">import org.junit.runners.Suite;</span><br><span class="line">@RunWith(Suite.class)</span><br><span class="line">@Suite.SuiteClasses(&#123;</span><br><span class="line">   TestJunit1.class,</span><br><span class="line">   TestJunit2.class</span><br><span class="line">&#125;)</span><br><span class="line">public class JunitTestSuite &#123;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="忽略测试"><a href="#忽略测试" class="headerlink" title="忽略测试"></a>忽略测试</h2><p>有时因为各种原因（比如上面套件中，我们类中有并不想执行的用例）我们不想执行我们的测试用例。这是需要忽略掉这个测试用例。@Ignore 注释会在这种情况时帮助我们。</p>
+<ul>
+<li>一个含有 @Ignore 注释的测试方法将不会被执行。</li>
+<li>如果一个测试类有 @Ignore 注释，则它的所有的测试方法将不会执行。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
-
-<p>选择 Tools -&gt; Build System 选定为Python3。<br>选择 Tools -&gt; Build 运行代码。<br>看到如下图这个结果就说明执行成功，在浏览器访问其中的地址。接受来自Python的问候吧。<br><img src="https://www.2360s.top/pic/sublim1.jpg" width="100%" height="100%"></p>
-<h3 id="搭建falsk执行文件夹"><a href="#搭建falsk执行文件夹" class="headerlink" title="搭建falsk执行文件夹"></a>搭建falsk执行文件夹</h3><ol>
-<li>创建一个test文件夹</li>
-<li>在test文件夹下创建名为<strong>init</strong>的pyton文件。（注意前后各两个下划线）</li>
-<li>在test文件夹下创建名为api的pyton文件。</li>
-</ol>
-<p>创建完之后，文件结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── __init__.py</span><br><span class="line">└── api.py</span><br></pre></td></tr></table></figure>
-
-<p><strong>init</strong>文件下的内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br></pre></td></tr></table></figure>
-
-<p>api文件下的内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from test import app</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;cui&#39;)</span><br><span class="line">def hello_flask():</span><br><span class="line">    return &#39;Hello Flask!&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run(host&#x3D;&#39;0.0.0.0&#39;, port&#x3D;5000)</span><br></pre></td></tr></table></figure>
-
-<p>准备完毕之后，在api文件夹下运行代码（参照以上内容）。这是文件扩张成文件夹，照此可以完成小接口项目的搭建工作。</p>
-<h2 id="使用PyCharm创建Flask项目"><a href="#使用PyCharm创建Flask项目" class="headerlink" title="使用PyCharm创建Flask项目"></a>使用PyCharm创建Flask项目</h2><p>这时候PyCharm的方便强大之处就体现出来了。使用PyCharm创建Flask项目，直接file -&gt; new project 弹出如下图<br><img src="https://www.2360s.top/pic/pycharm1.jpg" width="100%" height="100%"><br>点击创建即可。<br>主要文件结构如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── app.py</span><br><span class="line">└── templates</span><br></pre></td></tr></table></figure>
-<p>打开app.py文件，并执行。系统扩张类比上面Sublime的方法即可。</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>个人博客刚搭建起来，尚未完善评价功能，有批评指教可以移步简书。<br><a href="https://www.jianshu.com/p/c40aed97c848" target="_blank" rel="noopener">简书链接</a></p>
+<h2 id="运行时间测试"><a href="#运行时间测试" class="headerlink" title="运行时间测试"></a>运行时间测试</h2><p>如果想验证一个测试用例是否比起指定的毫秒数花费了更多的时间。可以在@Test 注释中使用timeout 参数。<br><code>@Test(timeout=1000)</code></p>
+<h2 id="定向异常测试"><a href="#定向异常测试" class="headerlink" title="定向异常测试"></a>定向异常测试</h2><p>你可以测试代码是否它抛出了想要得到的异常。可以在@Test 注释中使用expected 参数。例如<code>@Test(expected = ArithmeticException.class)</code> 就可以用来测试被注释的方法抛出的异常是不是ArithmeticException。</p>
 
     </div>
 
@@ -282,13 +264,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/12/28/python_1/" rel="prev" title="Python初体验">
-      <i class="fa fa-chevron-left"></i> Python初体验
+    <a href="/2020/03/02/Junit_2/" rel="prev" title="Java之Junit应用">
+      <i class="fa fa-chevron-left"></i> Java之Junit应用
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/12/29/me/" rel="next" title="关于我">
-      关于我 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -349,7 +328,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Flask"><span class="nav-number">1.</span> <span class="nav-text">关于Flask</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flask使用"><span class="nav-number">2.</span> <span class="nav-text">Flask使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装flask"><span class="nav-number">2.2.</span> <span class="nav-text">安装flask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Sublime创建Flask项目"><span class="nav-number">2.3.</span> <span class="nav-text">使用Sublime创建Flask项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建falsk执行文件"><span class="nav-number">2.3.1.</span> <span class="nav-text">创建falsk执行文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建falsk执行文件夹"><span class="nav-number">2.3.2.</span> <span class="nav-text">搭建falsk执行文件夹</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用PyCharm创建Flask项目"><span class="nav-number">2.4.</span> <span class="nav-text">使用PyCharm创建Flask项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number">2.4.1.</span> <span class="nav-text">链接</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要内容"><span class="nav-number">2.</span> <span class="nav-text">主要内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#测试套件"><span class="nav-number">2.1.</span> <span class="nav-text">测试套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#忽略测试"><span class="nav-number">2.2.</span> <span class="nav-text">忽略测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时间测试"><span class="nav-number">2.3.</span> <span class="nav-text">运行时间测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定向异常测试"><span class="nav-number">2.4.</span> <span class="nav-text">定向异常测试</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
