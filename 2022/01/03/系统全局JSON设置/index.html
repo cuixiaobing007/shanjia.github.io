@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Spring Boot配置 jackson 序列化一系列的参数背景 开发阶段，前端组同事要求返回数据中对空值做同意的处理，字符串返回字符串，数组返回空数组等。想起之前见过类似的配置操作，所以一番操作之后。1234567891011121314151617181920212223242526@Configuration@EnableWebMvcpublic class JinWeiConverter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="系统全局JSON设置">
+<meta property="og:url" content="http://yoursite.com/2022/01/03/%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80JSON%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="山佳">
+<meta property="og:description" content="Spring Boot配置 jackson 序列化一系列的参数背景 开发阶段，前端组同事要求返回数据中对空值做同意的处理，字符串返回字符串，数组返回空数组等。想起之前见过类似的配置操作，所以一番操作之后。1234567891011121314151617181920212223242526@Configuration@EnableWebMvcpublic class JinWeiConverter">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2022-01-03T10:12:51.583Z">
+<meta property="article:modified_time" content="2022-02-08T08:02:41.699Z">
+<meta property="article:author" content="cui">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2022/01/03/%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80JSON%E8%AE%BE%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>系统全局JSON设置 | 山佳</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山佳</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/2019/12/29/me/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/01/03/%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80JSON%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山佳">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          系统全局JSON设置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-01-03 18:12:51" itemprop="dateCreated datePublished" datetime="2022-01-03T18:12:51+08:00">2022-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-02-08 16:02:41" itemprop="dateModified" datetime="2022-02-08T16:02:41+08:00">2022-02-08</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/01/03/%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80JSON%E8%AE%BE%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/03/%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80JSON%E8%AE%BE%E7%BD%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Spring-Boot配置-jackson-序列化一系列的参数"><a href="#Spring-Boot配置-jackson-序列化一系列的参数" class="headerlink" title="Spring Boot配置 jackson 序列化一系列的参数"></a>Spring Boot配置 jackson 序列化一系列的参数</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ol>
+<li>开发阶段，前端组同事要求返回数据中对空值做同意的处理，字符串返回字符串，数组返回空数组等。想起之前见过类似的配置操作，所以一番操作之后。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableWebMvc</span><br><span class="line">public class JinWeiConvertersConfigurer implements WebMvcConfigurer &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) &#123;</span><br><span class="line">        &#x2F;&#x2F;1.需要先定义一个 convert 转换消息的对象;</span><br><span class="line">        FastJsonHttpMessageConverter fastConverter &#x3D; new FastJsonHttpMessageConverter();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;2、添加fastJson 的配置信息，比如：是否要格式化返回的json数据;</span><br><span class="line">        FastJsonConfig fastJsonConfig &#x3D; new FastJsonConfig();</span><br><span class="line">        &#x2F;&#x2F; 不忽略对象属性中的null值</span><br><span class="line">        fastJsonConfig.setSerializerFeatures(</span><br><span class="line">                PrettyFormat,</span><br><span class="line">                WriteMapNullValue,</span><br><span class="line">                WriteNullListAsEmpty,</span><br><span class="line">                WriteNullStringAsEmpty,</span><br><span class="line">                WriteNullNumberAsZero,</span><br><span class="line">                WriteDateUseDateFormat);</span><br><span class="line">        &#x2F;&#x2F;3、在convert中添加配置信息.</span><br><span class="line">        fastConverter.setFastJsonConfig(fastJsonConfig);</span><br><span class="line">        &#x2F;&#x2F;4、将convert添加到converters当中.</span><br><span class="line">        converters.add(fastConverter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>可以注意到这个配置主要是通过 FastJsonHttpMessageConverter 来实现的，不过很快就发现了问题，项目配置的Swagger UI无法访问了，所以就有了如下的代码增加：(在配置累中增加了 addResourceHandlers 函数)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">    &#x2F;&#x2F; 注意 :</span><br><span class="line">    &#x2F;&#x2F; 1. addResourceHandler 参数可以有多个</span><br><span class="line">    &#x2F;&#x2F; 2. addResourceLocations 参数可以是多个，可以混合使用 file: 和 classpath : 资源路径</span><br><span class="line">    &#x2F;&#x2F; 3. addResourceLocations 参数中资源路径必须使用 &#x2F; 结尾，如果没有此结尾则访问不到</span><br><span class="line">    &#x2F;&#x2F; 映射到文件系统中的静态文件(应用运行时，这些文件无业务逻辑，但可能被替换或者修改)</span><br><span class="line">    &#x2F;&#x2F;过滤swagger</span><br><span class="line">    registry.addResourceHandler(&quot;swagger-ui.html&quot;)</span><br><span class="line">            .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;“);</span><br><span class="line">    registry.addResourceHandler(&quot;&#x2F;webjars&#x2F;**&quot;)</span><br><span class="line">            .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;webjars&#x2F;&quot;);</span><br><span class="line">    registry.addResourceHandler(&quot;&#x2F;swagger-resources&#x2F;**&quot;)</span><br><span class="line">            .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;swagger-resources&#x2F;&quot;);</span><br><span class="line">    registry.addResourceHandler(&quot;&#x2F;swagger&#x2F;**&quot;)</span><br><span class="line">            .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;swagger*&quot;);</span><br><span class="line">    registry.addResourceHandler(&quot;&#x2F;v2&#x2F;api-docs&#x2F;**&quot;)</span><br><span class="line">            .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;v2&#x2F;api-docs&#x2F;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>好景不长，很快又发现时间等的格式有些对不上，频繁的修改我意识到是不是又哪儿不太对，通过对系统代码和配置的检查，我意识到同事搭建的这套系统默认使用的是Jackson，所以通过FastJson设置的这些空处置防范无法奏效，所以<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package net.jinwei.config.converters;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import com.alibaba.fastjson.serializer.SerializeConfig;</span><br><span class="line">import com.alibaba.fastjson.support.config.FastJsonConfig;</span><br><span class="line">import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.http.converter.HttpMessageConverter;</span><br><span class="line">import org.springframework.http.converter.StringHttpMessageConverter;</span><br><span class="line">import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;</span><br><span class="line">import org.springframework.web.servlet.config.annotation.EnableWebMvc;</span><br><span class="line">import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;</span><br><span class="line">import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import java.math.BigDecimal;</span><br><span class="line">import java.nio.charset.Charset;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 功能简要</span><br><span class="line"> * 消息转换配置</span><br><span class="line"> *</span><br><span class="line"> * @author xbcui</span><br><span class="line"> * createTime 2021&#x2F;12&#x2F;24 9:52 AM</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Configuration</span><br><span class="line">@EnableWebMvc</span><br><span class="line">public class JinWeiConvertersConfigurer  implements WebMvcConfigurer &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) &#123;</span><br><span class="line">        &#x2F;&#x2F;在json转换之前先进行string转换</span><br><span class="line">        converters.add(new StringHttpMessageConverter());</span><br><span class="line">        &#x2F;&#x2F;添加json转换</span><br><span class="line">        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter &#x3D; new MappingJackson2HttpMessageConverter();</span><br><span class="line">        jackson2HttpMessageConverter.setObjectMapper(new ConvertersJsonMapper());</span><br><span class="line">        converters.add(jackson2HttpMessageConverter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">        &#x2F;&#x2F;过滤swagger</span><br><span class="line">        registry.addResourceHandler(&quot;swagger-ui.html&quot;)</span><br><span class="line">                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;&quot;);</span><br><span class="line">        registry.addResourceHandler(&quot;&#x2F;webjars&#x2F;**&quot;)</span><br><span class="line">                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;webjars&#x2F;&quot;);</span><br><span class="line">        registry.addResourceHandler(&quot;&#x2F;swagger-resources&#x2F;**&quot;)</span><br><span class="line">                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;swagger-resources&#x2F;&quot;);</span><br><span class="line">        registry.addResourceHandler(&quot;&#x2F;swagger&#x2F;**&quot;)</span><br><span class="line">                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;swagger*&quot;);</span><br><span class="line">        registry.addResourceHandler(&quot;&#x2F;v2&#x2F;api-docs&#x2F;**&quot;)</span><br><span class="line">                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;v2&#x2F;api-docs&#x2F;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">package net.jinwei.config.converters;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import com.fasterxml.jackson.core.JsonGenerator;</span><br><span class="line">import com.fasterxml.jackson.databind.JsonSerializer;</span><br><span class="line">import com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line">import com.fasterxml.jackson.databind.SerializerProvider;</span><br><span class="line">import com.fasterxml.jackson.databind.module.SimpleModule;</span><br><span class="line">import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.text.SimpleDateFormat;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line">import java.util.Objects;</span><br><span class="line">import java.util.TimeZone;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 功能简要</span><br><span class="line"> * 转JSON 空值处理</span><br><span class="line"> *</span><br><span class="line"> * @author xbcui</span><br><span class="line"> * createTime 2021&#x2F;12&#x2F;29 5:25 PM</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class ConvertersJsonMapper extends ObjectMapper &#123;</span><br><span class="line">    public ConvertersJsonMapper() &#123;</span><br><span class="line">        super();</span><br><span class="line">        &#x2F;&#x2F;收到未知属性时不报异常</span><br><span class="line">        this.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);</span><br><span class="line">        this.setDateFormat(new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;));</span><br><span class="line">        this.setTimeZone(TimeZone.getTimeZone(&quot;GMT+8&quot;));</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;Long类型转为String类型</span><br><span class="line">        SimpleModule simpleModule &#x3D; new SimpleModule();</span><br><span class="line">        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);</span><br><span class="line">        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);</span><br><span class="line">        this.registerModule(simpleModule);</span><br><span class="line">        &#x2F;&#x2F;处理null时设置的值</span><br><span class="line">        this.getSerializerProvider().setNullValueSerializer(new JsonSerializer&lt;Object&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException &#123;</span><br><span class="line">                String fieldName &#x3D; gen.getOutputContext().getCurrentName();</span><br><span class="line">                try &#123;</span><br><span class="line">                    &#x2F;&#x2F;反射获取字段类型</span><br><span class="line">                    Field field &#x3D; gen.getCurrentValue().getClass().getDeclaredField(fieldName);</span><br><span class="line">                    if (Objects.equals(field.getType(), String.class)) &#123;</span><br><span class="line">                        &#x2F;&#x2F;字符串型空值&quot;&quot;</span><br><span class="line">                        gen.writeString(&quot;&quot;);</span><br><span class="line">                        return;</span><br><span class="line">                    &#125; else if (Objects.equals(field.getType(), List.class)) &#123;</span><br><span class="line">                        &#x2F;&#x2F;列表型空值返回[]</span><br><span class="line">                        gen.writeStartArray();</span><br><span class="line">                        gen.writeEndArray();</span><br><span class="line">                        return;</span><br><span class="line">                    &#125; else if (Objects.equals(field.getType(), Map.class)) &#123;</span><br><span class="line">                        &#x2F;&#x2F;map型空值返回&#123;&#125;</span><br><span class="line">                        gen.writeStartObject();</span><br><span class="line">                        gen.writeEndObject();</span><br><span class="line">                        return;</span><br><span class="line">                    &#125; else if(Objects.equals(field.getType(), Long.class))&#123;</span><br><span class="line">                        gen.writeNumber(0);</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;else if (Objects.equals(field.getType(), String[].class)) &#123;</span><br><span class="line">                        &#x2F;&#x2F;列表型空值返回[]</span><br><span class="line">                        gen.writeStartArray();</span><br><span class="line">                        gen.writeEndArray();</span><br><span class="line">                        return;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (NoSuchFieldException e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                &#x2F;&#x2F;默认返回&quot;&quot;</span><br><span class="line">                gen.writeString(&quot;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="HttpMessageConverter"><a href="#HttpMessageConverter" class="headerlink" title="HttpMessageConverter"></a>HttpMessageConverter</h2><p>经过这次的修改，我决定总结下相关的东西。</p>
+<h3 id="HttpMessageConverter是什么"><a href="#HttpMessageConverter是什么" class="headerlink" title="HttpMessageConverter是什么"></a>HttpMessageConverter是什么</h3><p>官方文档介绍：</p>
+<blockquote>
+<p>HttpMessageConverter is responsible for converting from the HTTP request message to an object and converting from an object to the HTTP response body</p>
+</blockquote>
+<p>DispatcherServlet默认已经安装了AnnotationMethodHandlerAdapter作为HandlerAdapter组件的实现类，HttpMessageConverter即由AnnotationMethodHandlerAdapter使用，将请求信息转换为对象，或将对象转换为响应信息。</p>
+<h3 id="HttpMessageConverter怎么生效"><a href="#HttpMessageConverter怎么生效" class="headerlink" title="HttpMessageConverter怎么生效"></a>HttpMessageConverter怎么生效</h3><p><em>如何使用HttpMessageConverter<T>  将请求信息转化并绑定到处理方法的入参当中呢？</em><br>可以通过两种方式实现：      </p>
+<ol>
+<li>使用@RequestBody/@ResponseBody对处理方法进行标注     </li>
+<li>使用HttpEntity<T>/ResponseEntity<T>作为处理方法的入参或者返回值</li>
+</ol>
+<p><em>处理方法如何知道请求消息的格式?在处理完成后又是根据什么确定响应消息的格式</em><br>可以根据请求消息头的”Content-Type“及Accept属性确定。</p>
+<p>HttpMessageConverter这个接口，简单说就是HTTP的request和response的转换器，在遇到@RequestBody时候SpringBoot会选择一个合适的HttpMessageConverter实现类来进行转换，内部有很多实现类，也可以自己实现，如果这个实现类能处理这个数据，那么它的canRead()方法会返回true，SpringBoot会调用他的read()方法从请求中读出并转换成实体类，同样canWrite也是。</p>
+<h3 id="自定义HttpMessageConverter实现"><a href="#自定义HttpMessageConverter实现" class="headerlink" title="自定义HttpMessageConverter实现"></a>自定义HttpMessageConverter实现</h3><p>文档：<br><code>Customization of HttpMessageConverter can be achieved in Java config by overriding configureMessageConverters() if you want to replace the default converters created by Spring MVC, or by overriding extendMessageConverters() if you just want to customize them or add additional converters to the default ones.</code><br>如果想替换默认的converter，通过重写configureMessageConverters()这个方法。<br>而如果你想添加一个自定义converter，通过重写extendMessageConverters()这个方法。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/26/Spring%20Boot%E5%8F%82%E6%95%B0%E6%A0%A1%E9%AA%8C%E6%9C%BA%E5%88%B6%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" rel="prev" title="Spring Boot参数校验机制问题排查">
+      <i class="fa fa-chevron-left"></i> Spring Boot参数校验机制问题排查
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot配置-jackson-序列化一系列的参数"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot配置 jackson 序列化一系列的参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpMessageConverter"><span class="nav-number">1.2.</span> <span class="nav-text">HttpMessageConverter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HttpMessageConverter是什么"><span class="nav-number">1.2.1.</span> <span class="nav-text">HttpMessageConverter是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HttpMessageConverter怎么生效"><span class="nav-number">1.2.2.</span> <span class="nav-text">HttpMessageConverter怎么生效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义HttpMessageConverter实现"><span class="nav-number">1.2.3.</span> <span class="nav-text">自定义HttpMessageConverter实现</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cui</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'YvpdhuwAHAdpXgzPHCtXHg08-gzGzoHsz',
+      appKey: 'FKGcg90plr2dMxDRVrS8lG7r',
+      placeholder: "Just go go",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="关于FlaskFlask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。 Flask使用准备工作 安装 Python3 安装Sublime（提前配好Python开发环境）或者PyCharm  安装flaskpip install flask 使用Sublime创建Flask项目创建falsk执行文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python初体验之Flask">
+<meta property="og:url" content="http://yoursite.com/2019/12/29/python_flask/index.html">
+<meta property="og:site_name" content="山佳">
+<meta property="og:description" content="关于FlaskFlask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。 Flask使用准备工作 安装 Python3 安装Sublime（提前配好Python开发环境）或者PyCharm  安装flaskpip install flask 使用Sublime创建Flask项目创建falsk执行文件">
+<meta property="og:locale" content="cn">
+<meta property="og:image" content="https://www.2360s.top/pic/sublim1.jpg">
+<meta property="og:image" content="https://www.2360s.top/pic/pycharm1.jpg">
+<meta property="article:published_time" content="2019-12-29T04:07:54.532Z">
+<meta property="article:modified_time" content="2020-03-02T02:07:26.875Z">
+<meta property="article:author" content="cui">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.2360s.top/pic/sublim1.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2019/12/29/python_flask/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Python初体验之Flask | 山佳</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山佳</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/2019/12/29/me/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/29/python_flask/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山佳">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python初体验之Flask
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-29 12:07:54" itemprop="dateCreated datePublished" datetime="2019-12-29T12:07:54+08:00">2019-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-02 10:07:26" itemprop="dateModified" datetime="2020-03-02T10:07:26+08:00">2020-03-02</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/12/29/python_flask/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/29/python_flask/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="关于Flask"><a href="#关于Flask" class="headerlink" title="关于Flask"></a>关于Flask</h1><p>Flask 是一个使用 Python 编写的轻量级 Web 应用程序框架。可扩展性很好。Flask基于Werkzeug WSGI工具包和Jinja2模板引擎。</p>
+<h1 id="Flask使用"><a href="#Flask使用" class="headerlink" title="Flask使用"></a>Flask使用</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>安装 Python3</li>
+<li>安装Sublime（提前配好Python开发环境）或者PyCharm</li>
+</ul>
+<h2 id="安装flask"><a href="#安装flask" class="headerlink" title="安装flask"></a>安装flask</h2><p><code>pip install flask</code></p>
+<h2 id="使用Sublime创建Flask项目"><a href="#使用Sublime创建Flask项目" class="headerlink" title="使用Sublime创建Flask项目"></a>使用Sublime创建Flask项目</h2><h3 id="创建falsk执行文件"><a href="#创建falsk执行文件" class="headerlink" title="创建falsk执行文件"></a>创建falsk执行文件</h3><ul>
+<li>创建test文件夹</li>
+<li>在下面创建test.py文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def hello_world():</span><br><span class="line">    return &#39;Hello World!&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+<p>选择 Tools -&gt; Build System 选定为Python3。<br>选择 Tools -&gt; Build 运行代码。<br>看到如下图这个结果就说明执行成功，在浏览器访问其中的地址。接受来自Python的问候吧。<br><img src="https://www.2360s.top/pic/sublim1.jpg" width="100%" height="100%"></p>
+<h3 id="搭建falsk执行文件夹"><a href="#搭建falsk执行文件夹" class="headerlink" title="搭建falsk执行文件夹"></a>搭建falsk执行文件夹</h3><ol>
+<li>创建一个test文件夹</li>
+<li>在test文件夹下创建名为<strong>init</strong>的pyton文件。（注意前后各两个下划线）</li>
+<li>在test文件夹下创建名为api的pyton文件。</li>
+</ol>
+<p>创建完之后，文件结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── __init__.py</span><br><span class="line">└── api.py</span><br></pre></td></tr></table></figure>
+
+<p><strong>init</strong>文件下的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br></pre></td></tr></table></figure>
+
+<p>api文件下的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from test import app</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;cui&#39;)</span><br><span class="line">def hello_flask():</span><br><span class="line">    return &#39;Hello Flask!&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run(host&#x3D;&#39;0.0.0.0&#39;, port&#x3D;5000)</span><br></pre></td></tr></table></figure>
+
+<p>准备完毕之后，在api文件夹下运行代码（参照以上内容）。这是文件扩张成文件夹，照此可以完成小接口项目的搭建工作。</p>
+<h2 id="使用PyCharm创建Flask项目"><a href="#使用PyCharm创建Flask项目" class="headerlink" title="使用PyCharm创建Flask项目"></a>使用PyCharm创建Flask项目</h2><p>这时候PyCharm的方便强大之处就体现出来了。使用PyCharm创建Flask项目，直接file -&gt; new project 弹出如下图<br><img src="https://www.2360s.top/pic/pycharm1.jpg" width="100%" height="100%"><br>点击创建即可。<br>主要文件结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── app.py</span><br><span class="line">└── templates</span><br></pre></td></tr></table></figure>
+<p>打开app.py文件，并执行。系统扩张类比上面Sublime的方法即可。</p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>个人博客刚搭建起来，尚未完善评价功能，有批评指教可以移步简书。<br><a href="https://www.jianshu.com/p/c40aed97c848" target="_blank" rel="noopener">简书链接</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/28/python_1/" rel="prev" title="Python初体验">
+      <i class="fa fa-chevron-left"></i> Python初体验
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/29/me/" rel="next" title="关于我">
+      关于我 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Flask"><span class="nav-number">1.</span> <span class="nav-text">关于Flask</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Flask使用"><span class="nav-number">2.</span> <span class="nav-text">Flask使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装flask"><span class="nav-number">2.2.</span> <span class="nav-text">安装flask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Sublime创建Flask项目"><span class="nav-number">2.3.</span> <span class="nav-text">使用Sublime创建Flask项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建falsk执行文件"><span class="nav-number">2.3.1.</span> <span class="nav-text">创建falsk执行文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建falsk执行文件夹"><span class="nav-number">2.3.2.</span> <span class="nav-text">搭建falsk执行文件夹</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用PyCharm创建Flask项目"><span class="nav-number">2.4.</span> <span class="nav-text">使用PyCharm创建Flask项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number">2.4.1.</span> <span class="nav-text">链接</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cui</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'YvpdhuwAHAdpXgzPHCtXHg08-gzGzoHsz',
+      appKey: 'FKGcg90plr2dMxDRVrS8lG7r',
+      placeholder: "Just go go",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

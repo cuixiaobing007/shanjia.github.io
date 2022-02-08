@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="写在Java内存模型前面 JAVA依旧是当前比较受欢迎的面向对象的开发语言，Java 编程语言是个简单、面向对象、分布式、解释性、健壮、安全与系统无关、可移植、高性能、多线程和静态的语言。作为程序员摊开来说Java，说起Java一般接下来会有几个定义：JDK、JRE、JVM。JDK（Java Development kit）是针对开发的产品，是整个Java的核心，它包括了Java运行环境JRE、J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java内存模型">
+<meta property="og:url" content="http://yoursite.com/2021/08/17/JMM/index.html">
+<meta property="og:site_name" content="山佳">
+<meta property="og:description" content="写在Java内存模型前面 JAVA依旧是当前比较受欢迎的面向对象的开发语言，Java 编程语言是个简单、面向对象、分布式、解释性、健壮、安全与系统无关、可移植、高性能、多线程和静态的语言。作为程序员摊开来说Java，说起Java一般接下来会有几个定义：JDK、JRE、JVM。JDK（Java Development kit）是针对开发的产品，是整个Java的核心，它包括了Java运行环境JRE、J">
+<meta property="og:locale" content="cn">
+<meta property="og:image" content="https://www.2360s.top/pic/java_base.png">
+<meta property="article:published_time" content="2021-08-17T10:11:30.001Z">
+<meta property="article:modified_time" content="2021-08-22T12:59:17.684Z">
+<meta property="article:author" content="cui">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.2360s.top/pic/java_base.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/17/JMM/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java内存模型 | 山佳</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山佳</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/2019/12/29/me/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/17/JMM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山佳">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java内存模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-08-17 18:11:30" itemprop="dateCreated datePublished" datetime="2021-08-17T18:11:30+08:00">2021-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-08-22 20:59:17" itemprop="dateModified" datetime="2021-08-22T20:59:17+08:00">2021-08-22</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/08/17/JMM/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/17/JMM/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="写在Java内存模型前面"><a href="#写在Java内存模型前面" class="headerlink" title="写在Java内存模型前面"></a>写在Java内存模型前面</h1><blockquote>
+<p>JAVA依旧是当前比较受欢迎的面向对象的开发语言，Java 编程语言是个简单、面向对象、分布式、解释性、健壮、安全与系统无关、可移植、高性能、多线程和静态的语言。<br>作为程序员摊开来说Java，说起Java一般接下来会有几个定义：JDK、JRE、JVM。<br>JDK（Java Development kit）是针对开发的产品，是整个Java的核心，它包括了Java运行环境JRE、Java工具和Java基础类库。<br>JRE（Java Runtime Environment）是运行Java程序所必需的环境的集合，它包括JVM标准实现和Java核心类库。<br>JVM（Java virtual Machine）Java虚拟机，是整个Java实现跨平台的最核心的产品，能够与性Java写作的软件程序。所有的Java程序会被编译成.class的类文件，这种类文件可以在虚拟机上执行，也就是说，class并不直接操作机器的操作系统，而是经过虚拟机间接的与操作系统交互，有虚拟机将程序解释给本地系统执行。</p>
+</blockquote>
+<img src="https://www.2360s.top/pic/java_base.png" width="100%" height="100%">
+
+
+<h1 id="关于JMM"><a href="#关于JMM" class="headerlink" title="关于JMM"></a>关于JMM</h1><blockquote>
+<p>JMM（Java Memory Model）,Java内存模型，其实是一套内存模型规范，屏蔽了各种硬件和操作系统访问差异，保证Java程序在各种平台下对内存的访问的效果都一致。<br>Java程序的内存的分配是在JVM虚拟机内存分配机制下完成的。<br>Java内存共分为五部分： 虚拟机栈、 堆、 方法区、 本地方法栈、程序计数器。</p>
+</blockquote>
+<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><blockquote>
+<p>这一部分是当前线程锁定执行字节码的行号指示器，是一块较小的内存空间。程序计数器是线程私有的。Java虚拟机的多线程是通过线程轮流切换并分配处理器执行时间的方式来实现的。<br>所以在任一确定时刻，一个处理器只会执行一条线程的指令，因此，为了线程切换后能恢复到正确的执行位置，每条线程都是需要一个独立的程序计数器，各条线程之间互相不影响，独立存储。<br>如果说线程正在执行的是Java方法，计数器记录的就是正在执行的虚拟机字节码指令的地址，如果执行的是Native方法，这个计数器值就是空（Undefined）。这块区域也是为一个在Java虚拟机规范中没有规定任何内存溢出情况的区域。</p>
+</blockquote>
+<h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><blockquote>
+<p>这一部分也是线程私有的，每个方法在执行的时候会创建一个栈桢。每个栈桢存储局部变表、操作数、动态链接、方法返回地址等。每一个方法的调用到执行完毕，对应一个栈桢在虚拟机栈中的如栈和出栈。局部变量表存放了编译器克可知的各种基本数据类型、 对象引用和returnAddress类型（一条指向字节码指令的地址），局部变量表所需的内存空间在编译期间就分配完成，当进入一个方法时，该方法需要的在桢中分配多大的局部变量空间时完全确定的，在运行期间不会改变局部变量表的大小。</p>
+</blockquote>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><blockquote>
+<p>与虚拟机栈的作用和原理相似，区别是虚拟机栈是为执行Java方法服务，本地方法栈是为执行本地方法服务的。</p>
+</blockquote>
+<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><blockquote>
+<p>Java中的堆是用来存储对象本身的以及数组（数组引用是存放在Java栈中的），堆是被所有线程共享的，在JVM中只有一个堆。Java堆是垃圾收集器管理的主要区域，因为也被称为GC堆。</p>
+</blockquote>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><blockquote>
+<p>方法区中存储了已经被虚拟机加载的类的信息（包括类的名称、方法信息、属性字段信息）、静态变量、常量以及编译器编译后的代码等。与堆一样，方法区也是被线程共享的区域。Java虚拟机规范堆这个区域的限制非常宽松。除了和Java堆一样不需要连续的内存和可以选择固定大小或者可扩展外，还可以选择不实现垃圾回收。运行时常量池时方法区的一部分，Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有一项信息时常量池，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后存放到方法区的运行时常量池中。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/08/Junit_3/" rel="prev" title="Java之Junit进阶">
+      <i class="fa fa-chevron-left"></i> Java之Junit进阶
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/26/rocket_mq_error/" rel="next" title="rocket_mq_error">
+      rocket_mq_error <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在Java内存模型前面"><span class="nav-number">1.</span> <span class="nav-text">写在Java内存模型前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于JMM"><span class="nav-number">2.</span> <span class="nav-text">关于JMM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序计数器"><span class="nav-number">2.1.</span> <span class="nav-text">程序计数器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟机栈"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地方法栈"><span class="nav-number">2.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆"><span class="nav-number">2.4.</span> <span class="nav-text">堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法区"><span class="nav-number">2.5.</span> <span class="nav-text">方法区</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cui</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'YvpdhuwAHAdpXgzPHCtXHg08-gzGzoHsz',
+      appKey: 'FKGcg90plr2dMxDRVrS8lG7r',
+      placeholder: "Just go go",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

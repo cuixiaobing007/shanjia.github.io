@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="RocketMQ 发送消息偶尔会无法消费问题背景 公司全款支付业务上线在即，测试组同学反馈，测试环境偶现某些操作无效的问题。经排查是系统中使用的MQ出现了问题。 消息队列是在老的生产环境就已经接入的，之前消息的传递是没有问题的。 以上是主要背景 排查过程 经过初步排查是消息队列中的消息没有被消费导致的。也就是生产者已经将消息发送到队列中，但是消费者没有消费到。  从消息队列控制台查看这个topic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rocket_mq_error">
+<meta property="og:url" content="http://yoursite.com/2021/12/26/rocket_mq_error/index.html">
+<meta property="og:site_name" content="山佳">
+<meta property="og:description" content="RocketMQ 发送消息偶尔会无法消费问题背景 公司全款支付业务上线在即，测试组同学反馈，测试环境偶现某些操作无效的问题。经排查是系统中使用的MQ出现了问题。 消息队列是在老的生产环境就已经接入的，之前消息的传递是没有问题的。 以上是主要背景 排查过程 经过初步排查是消息队列中的消息没有被消费导致的。也就是生产者已经将消息发送到队列中，但是消费者没有消费到。  从消息队列控制台查看这个topic">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2021-12-26T07:12:48.352Z">
+<meta property="article:modified_time" content="2021-12-26T08:12:21.021Z">
+<meta property="article:author" content="cui">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/12/26/rocket_mq_error/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>rocket_mq_error | 山佳</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山佳</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/2019/12/29/me/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/12/26/rocket_mq_error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山佳">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          rocket_mq_error
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-12-26 15:12:48 / Modified: 16:12:21" itemprop="dateCreated datePublished" datetime="2021-12-26T15:12:48+08:00">2021-12-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2021/12/26/rocket_mq_error/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/26/rocket_mq_error/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="RocketMQ-发送消息偶尔会无法消费"><a href="#RocketMQ-发送消息偶尔会无法消费" class="headerlink" title="RocketMQ 发送消息偶尔会无法消费"></a>RocketMQ 发送消息偶尔会无法消费</h1><h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p> 公司全款支付业务上线在即，测试组同学反馈，测试环境偶现某些操作无效的问题。经排查是系统中使用的MQ出现了问题。<br> 消息队列是在老的生产环境就已经接入的，之前消息的传递是没有问题的。<br> 以上是主要背景</p>
+<h2 id="排查过程"><a href="#排查过程" class="headerlink" title="排查过程"></a>排查过程</h2><ol>
+<li><p>经过初步排查是消息队列中的消息没有被消费导致的。也就是生产者已经将消息发送到队列中，但是消费者没有消费到。</p>
+</li>
+<li><p>从消息队列控制台查看这个topic和消费组的一些消息，有几个消费组的消息是积压状态（最可以从topic - consumer管理 - 弹出界面中consumer offset 后的差值，如果不为0 说明消息积压）。这里有个点，消费挤压的消费者的消费者终端都是空的，此处先记下。</p>
+</li>
+<li><p>接下来因为认识不足的问题，问题解决方向侧重点放在了检查消费端的堵塞上，此处问题没有得到很好的解决，但是发现不少比较不错的文档，记录在文末。</p>
+</li>
+<li><p>在控制台具体查看消息的一些生命情况，通过Topic 和 时间过滤 找到最近产生的几条消息数据，打开 message detail，最下面会有关于消息的 trackType 和一些操作。观察到消费失败的消息的trackType的属性是 NOT_ONLINE, 即消费者没有运行。<br>这里展开说下 trackType 的类型和代表的含义。</p>
+<blockquote>
+<p><strong>NOT_ONLINE</strong> 代表该Consumer没有运行<br><strong>CONSUMED</strong> 代表该消息已经被消费<br><strong>NOT_CONSUME_YET</strong> 还没被消费<br><strong>UNKNOW_EXCEPTION</strong> 报错<br><strong>CONSUMED_BUT_FILTERED</strong> 消费了，但是被过滤了，一般是被tag过滤了</p>
+</blockquote>
+</li>
+<li><p>在尝试联系运维同学重启了MQ之后，从消息队列的整个的配置上闲逛的时候，发现消费者的客户端的版本号存在多个，联系最近业务系统的测试和上线动作，新的测试环境部署了 流程引擎服务 的消费组名称和当前的同名，当时鉴于topic不一样，修改后未及时进行验证。</p>
+</li>
+<li><p>马上修改对应的服务的消费组名称， 问题解决。  <strong>不同的Topic的消费组名称也会冲突</strong>。</p>
+</li>
+</ol>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>消息队列使用时命名规范问题一定要注意，不同的项目的Topic、消费组名称和tag关系需要梳理。</p>
+<h2 id="附录："><a href="#附录：" class="headerlink" title="附录："></a>附录：</h2><p>另附网上关于mq消息积压的案例有很多，但场景都不是很一样，从中找到排查步骤和工具不错的方案如下：</p>
+<ol>
+<li><a href="https://zhaibo.ink/2019/12/13/RocketMQ%25E6%25B6%2588%25E6%2581%25AF%25E7%25A7%25AF%25E5%258E%258B%25E9%2597%25AE%25E9%25A2%2598" target="_blank" rel="noopener">RocketMQ消息积压问题</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/413253642" target="_blank" rel="noopener">消息积压判断及解决</a></li>
+</ol>
+<h3 id="附录链接文字备份"><a href="#附录链接文字备份" class="headerlink" title="附录链接文字备份"></a>附录链接文字备份</h3><p>Part1:</p>
+<blockquote>
+<ol>
+<li>可通过 jps -m 或者 ps -ef | grep java 命令获取当前正在运行的 Java 程序，通过启动主类即可获得应用的进程 id，然后可以通过 jstack pid &gt; j.log 命令获取线程的堆栈，在这里我建议大家连续运行 5 次该命令，分别获取 5 个线程堆栈文件，主要用于对比线程的状态是否在向前推进。</li>
+<li>通过 jstack 获取堆栈信息后，重点搜索 线程状态。</li>
+</ol>
+</blockquote>
+<p>Part2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">一. 定位问题</span><br><span class="line">1. Console入口</span><br><span class="line">主题--&gt;Topic--&gt;Consumer管理--&gt;订阅组</span><br><span class="line"></span><br><span class="line">2. 延迟数量（Delay）</span><br><span class="line">消息积压数量，即当前Topic还剩下多少消息未处理，该值越大，表示积压的消息越多</span><br><span class="line"></span><br><span class="line">3. 最后消费时间（LastConsumeTime）</span><br><span class="line">当前Topic消息最后被消费的时间，该值表示消费端有多长时间未拉取消息进行消费</span><br><span class="line"></span><br><span class="line">二. 分析问题</span><br><span class="line">1. 查看rocketmq_client.log日志</span><br><span class="line">grep &quot;do flow control&quot; rocketmq_client.log</span><br><span class="line"></span><br><span class="line">如果出现 so do flow control 这样的日志，说明触发了消费限流，原因是：消费端积压了消息，即消费端无法消费已拉取的消息，消费端在没有将消息处理完成前，不会再向服务端拉取消息，并打印日志。</span><br><span class="line"></span><br><span class="line">2. 消费端业务逻辑</span><br><span class="line">    1. 执行了长耗时的逻辑，导致消息处理很慢</span><br><span class="line">    2. 第三方接口调用很慢或超时</span><br><span class="line">    </span><br><span class="line">三. 解决问题</span><br><span class="line">1. 消费端解决</span><br><span class="line">    1. 增加消费端的消费线程数或增加消费者数量，提升消费能力</span><br><span class="line">    2. 优化代码逻辑，降低执行时间</span><br><span class="line">    3. 调用第三方接口时，设置较短的超时时间，避免长时间等待，快速返回错误信息并告警</span><br></pre></td></tr></table></figure>
+
+<p>Part3:</p>
+<blockquote>
+<p>出现场景<br>生产者系统会负责不停的把消息写入RocketMQ里去，然后消费者系统就是负责从RocketMQ里消费消息。</p>
+</blockquote>
+<blockquote>
+<p>系统在生产环境是有高峰和低谷的，在晚上几个小时的高峰期内，大概就会有100多万条消息进入RocketMQ。然后消费者系统从RocketMQ里获取到消息之后，会依赖一些Redis去进行一些业务逻辑的实现。</p>
+</blockquote>
+<blockquote>
+<p>有一天晚上就出现了一个问题，消费者系统依赖的Redis就挂掉了，导致消费者系统自己也没法运作了，此时就没法继续从RocketMQ里消费数据和处理了，消费者系统几乎就处于停滞不动的状态。然后生产者系统在晚上几个小时的高峰期内，就往MQ里写入了100多万的消息，此时都积压在MQ里了，根本没有系统消费和处理。</p>
+</blockquote>
+<blockquote>
+<p>解决方案<br>一般来说有以下几种方案：</p>
+</blockquote>
+<blockquote>
+<p>全部丢弃：如果这些消息允许丢失，那么此时可以紧急修改消费者系统的代码，在代码里对所有的消息都获取到就直接丢弃，不做任何的处理，这样可以迅速的让积压在MQ里的百万消息被处理掉，只不过处理方式就是全部丢弃而已。<br>等待Redis恢复：往往对很多系统而言，不能简单粗暴的丢弃这些消息，所以最常见的办法，还是先等待消费者系统底层依赖的Redis先恢复，恢复之后，就可以根据线上Topic的MessageQueue的数量来看看如何后续处理。<br>临时扩容消费者系统，增加机器来加快消费速度，但要考虑依赖的Redis也要能抗住压力；<br>临时扩容消费者系统<br>假如Topic有20个MessageQueue，然后只有4个消费者系统在消费，那么每个消费者系统会从5个MessageQueue里获取消息，所以此时如果你仅仅依靠4个消费者系统是肯定不够的，毕竟MQ里积压了百万消息了。</p>
+</blockquote>
+<blockquote>
+<p>此时可以临时申请16台机器多部署16个消费者系统的实例，然后20个消费者系统同时消费，每个消费者消费一个MessageQueue的消息，此时会发现消费的速度提高了5倍，很快积压的百万消息都会被处理完毕。<br>但是这里同时要考虑到Redis必须要能抗住临时增加了5倍的读写压力，因为原来就4个消费者系统在读写Redis，现在临时变成了20个消费者系统了。</p>
+</blockquote>
+<blockquote>
+<p>当你处理完百万积压的消息之后，就可以下线多余的16台机器了。</p>
+</blockquote>
+<blockquote>
+<p>那么如果Topic总共就只有4个MessageQueue，只有4个消费者系统呢？<br>这个时候就没办法扩容消费者系统了，因为再多的消费者系统，还是只有4个MessageQueue，没法并行消费。</p>
+</blockquote>
+<blockquote>
+<p>所以此时往往是临时修改那4个消费者系统的代码，让他们获取到消息然后不写入Redis，而是直接把消息写入一个新的Topic，这个速度是很快的，因为仅仅是读写MQ而已。</p>
+</blockquote>
+<blockquote>
+<p>然后新的Topic有20个MessageQueue，然后再部署20台临时增加的消费者系统，去消费新的Topic后写入数据到NoSQL里去，这样子也可以迅速的增加消费者系统的并行处理能力，使用一个新的Topic来允许更多的消费者系统并行处理。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/17/JMM/" rel="prev" title="Java内存模型">
+      <i class="fa fa-chevron-left"></i> Java内存模型
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/26/Docker%E9%83%A8%E7%BD%B2Logstash%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE/" rel="next" title="Docker部署Logstash同步mysql数据">
+      Docker部署Logstash同步mysql数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RocketMQ-发送消息偶尔会无法消费"><span class="nav-number">1.</span> <span class="nav-text">RocketMQ 发送消息偶尔会无法消费</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-number">1.1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查过程"><span class="nav-number">1.2.</span> <span class="nav-text">排查过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.3.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录："><span class="nav-number">1.4.</span> <span class="nav-text">附录：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#附录链接文字备份"><span class="nav-number">1.4.1.</span> <span class="nav-text">附录链接文字备份</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cui</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'YvpdhuwAHAdpXgzPHCtXHg08-gzGzoHsz',
+      appKey: 'FKGcg90plr2dMxDRVrS8lG7r',
+      placeholder: "Just go go",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
