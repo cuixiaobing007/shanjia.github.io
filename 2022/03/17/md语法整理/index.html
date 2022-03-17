@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="markdown 使用整理标题标题分级使用#号不同的个数来组合实现一个最大 依次减少 一共六级第一级和第二级在内容下会有分割线 # 大 ## 大 ### 小大大小内容正文标准文字&#x2F;段落可以直接进行书写， 如果不换行长度够了之后会自动换行。如果是段落也不需要缩进If you paste a message from somewhere elsethis is next line  文字加粗倾斜 可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="md语法整理">
+<meta property="og:url" content="http://yoursite.com/2022/03/17/md%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="山佳">
+<meta property="og:description" content="markdown 使用整理标题标题分级使用#号不同的个数来组合实现一个最大 依次减少 一共六级第一级和第二级在内容下会有分割线 # 大 ## 大 ### 小大大小内容正文标准文字&#x2F;段落可以直接进行书写， 如果不换行长度够了之后会自动换行。如果是段落也不需要缩进If you paste a message from somewhere elsethis is next line  文字加粗倾斜 可以">
+<meta property="og:locale" content="cn">
+<meta property="article:published_time" content="2022-03-17T02:21:16.588Z">
+<meta property="article:modified_time" content="2022-03-17T02:21:50.209Z">
+<meta property="article:author" content="cui">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2022/03/17/md%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>md语法整理 | 山佳</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">山佳</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/2019/12/29/me/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/17/md%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="cui">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="山佳">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          md语法整理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-03-17 10:21:16 / Modified: 10:21:50" itemprop="dateCreated datePublished" datetime="2022-03-17T10:21:16+08:00">2022-03-17</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2022/03/17/md%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/17/md%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="markdown-使用整理"><a href="#markdown-使用整理" class="headerlink" title="markdown 使用整理"></a>markdown 使用整理</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>标题分级<br>使用#号不同的个数来组合实现<br>一个最大 依次减少 一共六级<br>第一级和第二级在内容下会有分割线</p>
+<pre><code># 大
+## 大
+### 小</code></pre><h1 id="大"><a href="#大" class="headerlink" title="大"></a>大</h1><h2 id="大-1"><a href="#大-1" class="headerlink" title="大"></a>大</h2><h3 id="小"><a href="#小" class="headerlink" title="小"></a>小</h3><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><h3 id="正文标准文字-段落"><a href="#正文标准文字-段落" class="headerlink" title="正文标准文字/段落"></a>正文标准文字/段落</h3><p>可以直接进行书写， 如果不换行长度够了之后会自动换行。<br>如果是段落也不需要缩进<br>If you paste a message from somewhere else<br>this is next line </p>
+<h3 id="文字加粗倾斜"><a href="#文字加粗倾斜" class="headerlink" title="文字加粗倾斜"></a>文字加粗倾斜</h3><p> 可以在文字的两端加上 <code>**</code>或者<code>__</code> 实现加粗。加上 <code>_</code>或者 <code>*</code> 实现倾斜。<br> <code>***</code> 则是加粗倾斜</p>
+<pre><code>**加粗文体**  
+_倾斜文字_
+___加粗倾斜文字___</code></pre><p><strong>加粗文体</strong><br><em>倾斜文字</em><br><strong><em>加粗倾斜文字</em></strong></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p> 单行引用可以在开头使用 <code>&gt;</code> 来实现效果</p>
+<pre><code>&gt; 这是一行引用文字</code></pre><blockquote>
+<p>这是一行引用文字</p>
+</blockquote>
+<p>引用可以嵌套</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; 第一行</span><br><span class="line">&gt;&gt; 第二行</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一行</p>
+<blockquote>
+<p>第二行</p>
+</blockquote>
+</blockquote>
+<p>引用块的书写，可以开头结尾加上 <code>&gt;&gt;&gt;</code>或者 <code>~~~</code> ，开头注意换行</p>
+<pre><code>&gt;&gt;&gt;
+If you paste a message from somewhere else
+
+that spans multiple lines,
+
+you can quote that without having to manually prepend `&gt;` to every line!
+&gt;&gt;&gt;</code></pre><blockquote>
+<blockquote>
+<blockquote>
+</blockquote>
+<pre><code>If you paste a message from somewhere else</code></pre></blockquote>
+</blockquote>
+<pre><code>that spans multiple lines,
+
+you can quote that without having to manually prepend `&gt;` to every line!</code></pre><blockquote>
+<blockquote>
+<blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>行内代码可以在开头结尾使用反单引号 ` 来实现效果</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>`code`</p>
+<p><code>code</code></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>代码块可以在开头结尾加上三个反单引号 ```来实现效果, 还可以表明代码的语言类型, 会有代码高亮的效果。 </p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">function</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment">#indenting works just fine in the fenced code block</span></span><br><span class="line">        s = <span class="string">"Python code"</span></span><br><span class="line">        <span class="keyword">print</span> s</span><br><span class="line">    ```  </span><br><span class="line">    </span><br><span class="line">```python</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">function</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="comment">#indenting works just fine in the fenced code block</span></span><br><span class="line">        s = <span class="string">"Python code"</span></span><br><span class="line">        <span class="keyword">print</span> s</span><br><span class="line">``` </span><br><span class="line">这是个json格式的</span><br><span class="line">```json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"title"</span>: <span class="string">"About Front Matter"</span></span><br><span class="line">  <span class="string">"example"</span>: &#123;</span><br><span class="line">    <span class="string">"language"</span>: <span class="string">"json"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>带数字的列表,可以通过加前缀 <code>1.</code>实现。如果是无序的队列,可以通过通过增加 <code>-、+、*</code> 前缀来实现 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. item</span><br><span class="line">2. item</span><br></pre></td></tr></table></figure>
+<ol>
+<li>item</li>
+<li>item<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- item</span><br><span class="line">- item</span><br><span class="line">- item</span><br><span class="line">    - item</span><br><span class="line">    - item</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>item</li>
+<li>item</li>
+<li>item<ul>
+<li>item</li>
+<li>item</li>
+</ul>
+</li>
+</ul>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>注释通过在 md 里创建 <code>[^*]</code> 对象，在对应位置引用</p>
+<pre><code>A footnote reference tag looks like this: [^1]
+This reference tag is a mix of letters and numbers. [^footnote-42]
+
+
+[^1]: This text is inside a footnote.
+[^footnote-42]: This text is another footnote.</code></pre><p>A footnote reference tag looks like this: [^1]<br>    This reference tag is a mix of letters and numbers. [^footnote-42]</p>
+<p>[^1]: This text is inside a footnote.<br>[^footnote-42]: This text is another footnote.</p>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><p>通过英文的 <code>｜和—-以及:</code>组合实现基本的表格设置</p>
+<pre><code>|title1|title2|
+|--|--|
+|column|column|</code></pre><table>
+<thead>
+<tr>
+<th>title1</th>
+<th>title2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>column</td>
+<td>column</td>
+</tr>
+</tbody></table>
+<p>通过 <code>--和:</code> 的组合设置对其方式。</p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>md可以直接识别一个URL链接，也可以通过 <code>[name](url)</code> 来格式化。</p>
+<pre><code>http://api.*.net/customer/v2.0/weChat/auth</code></pre><p><a href="http://api.*.net/customer/v2.0/weChat/auth" target="_blank" rel="noopener">http://api.*.net/customer/v2.0/weChat/auth</a></p>
+<pre><code>[Link](http://api.*.net/customer/v2.0/weChat/auth)</code></pre><p><a href="http://api.*.net/customer/v2.0/weChat/auth" target="_blank" rel="noopener">Link</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/03/%E7%B3%BB%E7%BB%9F%E5%85%A8%E5%B1%80JSON%E8%AE%BE%E7%BD%AE/" rel="prev" title="Spring Boot配置 jackson 序列化一系列的参数">
+      <i class="fa fa-chevron-left"></i> Spring Boot配置 jackson 序列化一系列的参数
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#markdown-使用整理"><span class="nav-number">1.</span> <span class="nav-text">markdown 使用整理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标题"><span class="nav-number">1.1.</span> <span class="nav-text">标题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大"><span class="nav-number">2.</span> <span class="nav-text">大</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#大-1"><span class="nav-number">2.1.</span> <span class="nav-text">大</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小"><span class="nav-number">2.1.1.</span> <span class="nav-text">小</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内容"><span class="nav-number">2.2.</span> <span class="nav-text">内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正文标准文字-段落"><span class="nav-number">2.2.1.</span> <span class="nav-text">正文标准文字&#x2F;段落</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文字加粗倾斜"><span class="nav-number">2.2.2.</span> <span class="nav-text">文字加粗倾斜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">2.2.3.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码块"><span class="nav-number">2.2.4.</span> <span class="nav-text">代码块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">2.2.5.</span> <span class="nav-text">列表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释"><span class="nav-number">2.3.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表格"><span class="nav-number">2.4.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链接"><span class="nav-number">2.5.</span> <span class="nav-text">链接</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">cui</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cui</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'YvpdhuwAHAdpXgzPHCtXHg08-gzGzoHsz',
+      appKey: 'FKGcg90plr2dMxDRVrS8lG7r',
+      placeholder: "Just go go",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
